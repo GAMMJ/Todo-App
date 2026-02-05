@@ -9,11 +9,11 @@ function App() {
   ])
 
   return (
-    <>
+    <div className="todo-main">
       <TodoList todoList={todoList} setTodoList={setTodoList} />
       <hr />
       <TodoInput todoList={todoList} setTodoList={setTodoList} />
-    </>
+    </div>
   )
 }
 
@@ -78,12 +78,12 @@ function Todo({ todo, setTodoList }) {
 
   return (
     <>
-      {/* 완료 체크박스 표시 */}
-      <CheckBox todo={todo} setTodoList={setTodoList} />
-
       <li>
+        {/* 완료 체크박스 표시 */}
+        <CheckBox todo={todo} setTodoList={setTodoList} />
+
         {/* 완료 되었으면 del태그로 감싸주기 */}
-        {todo.completed ? <del>{todo.content}</del> : todo.content}
+        {todo.completed ? <del>{todo.content}</del> : <span>{todo.content}</span>}
 
         {/* isEdit이 true일 때만 input창 보여주기 */}
         {isEdit && <input value={inputValue} onChange={(event) => setInputValue(event.target.value)} />}
