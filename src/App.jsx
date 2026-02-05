@@ -1,12 +1,12 @@
-import { useState } from "react";
-import "./App.css";
+import { useState } from "react"
+import "./App.css"
 
 function App() {
   const [todoList, setTodoList] = useState([
     { id: 0, content: "123" },
     { id: 1, content: "코딩 공부하기" },
     { id: 2, content: "잠 자기" },
-  ]);
+  ])
 
   return (
     <>
@@ -14,30 +14,27 @@ function App() {
       <hr />
       <TodoInput todoList={todoList} setTodoList={setTodoList} />
     </>
-  );
+  )
 }
 
 function TodoInput({ todoList, setTodoList }) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("")
 
   return (
     <>
-      <input
-        value={inputValue}
-        onChange={(event) => setInputValue(event.target.value)}
-      />
+      <input value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
       <button
         onClick={() => {
-          const newTodo = { id: Number(new Date()), content: inputValue };
-          const newTodoList = [...todoList, newTodo];
-          setTodoList(newTodoList);
-          setInputValue("");
+          const newTodo = { id: Number(new Date()), content: inputValue }
+          const newTodoList = [...todoList, newTodo]
+          setTodoList(newTodoList)
+          setInputValue("")
         }}
       >
         추가하기
       </button>
     </>
-  );
+  )
 }
 
 function TodoList({ todoList, setTodoList }) {
@@ -47,40 +44,47 @@ function TodoList({ todoList, setTodoList }) {
         <Todo key={todo.id} todo={todo} setTodoList={setTodoList} />
       ))}
     </ul>
-  );
+  )
 }
 
 function Todo({ todo, setTodoList }) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("")
+  const [isEdit, setIsEdit] = useState(false)
+
   return (
     <li>
       {todo.content}
-      <input
-        value={inputValue}
-        onChange={(event) => setInputValue(event.target.value)}
-      />
+
+      {/* isEdit이 true일 때만 input창 보여주기 */}
+      {isEdit && <input value={inputValue} onChange={(event) => setInputValue(event.target.value)} />}
+
+      {/* 수정버튼 */}
       <button
         onClick={() => {
-          setTodoList((prev) =>
-            prev.map((el) =>
-              el.id === todo.id ? { ...el, content: inputValue } : el
-            )
-          );
+          if (isEdit) {
+            setTodoList((prev) => prev.map((el) => (el.id === todo.id ? { ...el, content: inputValue } : el)))
+            setIsEdit(false)
+            setInputValue("")
+          } else {
+            setIsEdit(true)
+          }
         }}
       >
         수정
       </button>
+
+      {/* 삭제버튼 */}
       <button
         onClick={() => {
           setTodoList((prev) => {
-            return prev.filter((el) => el.id !== todo.id);
-          });
+            return prev.filter((el) => el.id !== todo.id)
+          })
         }}
       >
         삭제
       </button>
     </li>
-  );
+  )
 }
 
-export default App;
+export default App
