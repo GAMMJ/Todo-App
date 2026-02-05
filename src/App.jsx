@@ -22,7 +22,7 @@ function TodoInput({ todoList, setTodoList }) {
 
   return (
     <>
-      <input value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
+      <input className="input-add" value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
       <button
         onClick={() => {
           const newTodo = { id: Number(new Date()), content: inputValue }
@@ -86,7 +86,9 @@ function Todo({ todo, setTodoList }) {
         {todo.completed ? <del>{todo.content}</del> : <span>{todo.content}</span>}
 
         {/* isEdit이 true일 때만 input창 보여주기 */}
-        {isEdit && <input value={inputValue} onChange={(event) => setInputValue(event.target.value)} />}
+        {isEdit && (
+          <input className="input-edit" value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
+        )}
 
         {/* 수정버튼 */}
         <button
