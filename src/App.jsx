@@ -37,13 +37,24 @@ function TodoInput({ todoList, setTodoList }) {
   )
 }
 
+function TodoHeader() {
+  return (
+    <>
+      <h1 className="todo-header">GAMMJ의 Todo 리스트!</h1>
+    </>
+  )
+}
+
 function TodoList({ todoList, setTodoList }) {
   return (
-    <ul>
-      {todoList.map((todo) => (
-        <Todo key={todo.id} todo={todo} setTodoList={setTodoList} />
-      ))}
-    </ul>
+    <>
+      <TodoHeader />
+      <ul>
+        {todoList.map((todo) => (
+          <Todo key={todo.id} todo={todo} setTodoList={setTodoList} />
+        ))}
+      </ul>
+    </>
   )
 }
 
@@ -67,9 +78,11 @@ function Todo({ todo, setTodoList }) {
 
   return (
     <>
+      {/* 완료 체크박스 표시 */}
       <CheckBox todo={todo} setTodoList={setTodoList} />
 
       <li>
+        {/* 완료 되었으면 del태그로 감싸주기 */}
         {todo.completed ? <del>{todo.content}</del> : todo.content}
 
         {/* isEdit이 true일 때만 input창 보여주기 */}
