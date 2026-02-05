@@ -3,9 +3,9 @@ import "./App.css"
 
 function App() {
   const [todoList, setTodoList] = useState([
-    { id: 0, content: "123" },
-    { id: 1, content: "코딩 공부하기" },
-    { id: 2, content: "잠 자기" },
+    { id: 0, content: "123", completed: false },
+    { id: 1, content: "코딩 공부하기", completed: false },
+    { id: 2, content: "잠 자기", completed: false },
   ])
 
   return (
@@ -47,43 +47,61 @@ function TodoList({ todoList, setTodoList }) {
   )
 }
 
+// 완료 체크박스
+function CheckBox({ todo, setTodoList }) {
+  return (
+    <>
+      <input
+        type="checkbox"
+        onChange={() => {
+          setTodoList((prev) => prev.map((el) => (el.id === todo.id ? { ...el, completed: !el.completed } : el)))
+        }}
+      ></input>
+    </>
+  )
+}
+
 function Todo({ todo, setTodoList }) {
   const [inputValue, setInputValue] = useState("")
   const [isEdit, setIsEdit] = useState(false)
 
   return (
-    <li>
-      {todo.content}
+    <>
+      <CheckBox todo={todo} setTodoList={setTodoList} />
 
-      {/* isEdit이 true일 때만 input창 보여주기 */}
-      {isEdit && <input value={inputValue} onChange={(event) => setInputValue(event.target.value)} />}
+      <li>
+        {todo.completed ? <del>{todo.content}</del> : todo.content}
 
-      {/* 수정버튼 */}
-      <button
-        onClick={() => {
-          if (isEdit) {
-            setTodoList((prev) => prev.map((el) => (el.id === todo.id ? { ...el, content: inputValue } : el)))
-            setIsEdit(false)
-            setInputValue("")
-          } else {
-            setIsEdit(true)
-          }
-        }}
-      >
-        수정
-      </button>
+        {/* isEdit이 true일 때만 input창 보여주기 */}
+        {isEdit && <input value={inputValue} onChange={(event) => setInputValue(event.target.value)} />}
 
-      {/* 삭제버튼 */}
-      <button
-        onClick={() => {
-          setTodoList((prev) => {
-            return prev.filter((el) => el.id !== todo.id)
-          })
-        }}
-      >
-        삭제
-      </button>
-    </li>
+        {/* 수정버튼 */}
+        <button
+          onClick={() => {
+            if (isEdit) {
+              setTodoList((prev) => prev.map((el) => (el.id === todo.id ? { ...el, content: inputValue } : el)))
+              setIsEdit(false)
+              setInputValue("")
+            } else {
+              setIsEdit(true)
+            }
+          }}
+        >
+          수정
+        </button>
+
+        {/* 삭제버튼 */}
+        <button
+          onClick={() => {
+            setTodoList((prev) => {
+              return prev.filter((el) => el.id !== todo.id)
+            })
+          }}
+        >
+          삭제
+        </button>
+      </li>
+    </>
   )
 }
 
